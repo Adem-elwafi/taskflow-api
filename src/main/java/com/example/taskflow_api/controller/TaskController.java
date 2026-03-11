@@ -1,13 +1,14 @@
 package com.example.taskflow_api.controller;
 
-import com.example.taskflow_api.model.Task;
+import com.example.taskflow_api.dto.TaskRequest;
+import com.example.taskflow_api.dto.TaskResponse;
 import com.example.taskflow_api.model.Status;
 import com.example.taskflow_api.service.TaskService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController // Dit à Spring que chaque méthode retournera du JSON.
+@RestController
 @RequestMapping("/api/tasks")
 public class TaskController {
 
@@ -17,18 +18,21 @@ public class TaskController {
         this.taskService = taskService;
     }
 
+    // ÉTAPE 5 : Utilise TaskRequest en entrée et TaskResponse en sortie
     @PostMapping
-    public Task create(@RequestBody Task task) {
-        return taskService.createTask(task);
+    public TaskResponse create(@RequestBody TaskRequest request) {
+        return taskService.createTask(request);
     }
 
+    // Retourne maintenant une liste de DTOs au lieu des entités brutes
     @GetMapping
-    public List<Task> getAll() {
+    public List<TaskResponse> getAll() {
         return taskService.getAllTasks();
     }
 
+    // Mise à jour du statut qui retourne aussi un DTO
     @PatchMapping("/{id}/status")
-    public Task updateStatus(@PathVariable Long id, @RequestParam Status status) {
+    public TaskResponse updateStatus(@PathVariable Long id, @RequestParam Status status) {
         return taskService.updateStatus(id, status);
     }
 }
