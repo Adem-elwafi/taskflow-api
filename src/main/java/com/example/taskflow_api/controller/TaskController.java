@@ -4,6 +4,7 @@ import com.example.taskflow_api.dto.TaskRequest;
 import com.example.taskflow_api.dto.TaskResponse;
 import com.example.taskflow_api.model.Status;
 import com.example.taskflow_api.service.TaskService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public class TaskController {
 
     // ÉTAPE 5 : Utilise TaskRequest en entrée et TaskResponse en sortie
     @PostMapping
-    public TaskResponse create(@RequestBody TaskRequest request) {
+    public TaskResponse create(@Valid @RequestBody TaskRequest request) {
         return taskService.createTask(request);
     }
 
