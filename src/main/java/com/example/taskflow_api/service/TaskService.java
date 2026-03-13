@@ -6,7 +6,8 @@ import com.example.taskflow_api.model.Task;
 import com.example.taskflow_api.model.Status;
 import com.example.taskflow_api.repository.TaskRepository;
 import org.springframework.stereotype.Service;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,7 +33,10 @@ public class TaskService {
         // 3. MAPPING RETOUR : On transforme l'Entité sauvegardée en DTO (Response)
         return mapToResponse(savedTask);
     }
-
+    public Page<TaskResponse> getAllTasks(Pageable pageable) {
+        return taskRepository.findAll(pageable)
+                .map(this::mapToResponse); // Rappelle-toi, on utilise le mapping manuel ou auto ici
+    }
     public List<TaskResponse> getAllTasks() {
         // On récupère toutes les entités et on les transforme une par une en DTO
         return taskRepository.findAll()

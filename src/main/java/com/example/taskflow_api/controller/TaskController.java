@@ -6,7 +6,8 @@ import com.example.taskflow_api.model.Status;
 import com.example.taskflow_api.service.TaskService;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 @RestController
@@ -24,7 +25,11 @@ public class TaskController {
     public TaskResponse create(@Valid @RequestBody TaskRequest request) {
         return taskService.createTask(request);
     }
-
+    // Dans TaskController.java
+    @GetMapping
+    public Page<TaskResponse> getAll(Pageable pageable) {
+        return taskService.getAllTasks(pageable);
+    }
     // Retourne maintenant une liste de DTOs au lieu des entités brutes
     @GetMapping
     public List<TaskResponse> getAll() {
